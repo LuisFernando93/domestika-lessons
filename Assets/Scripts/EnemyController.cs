@@ -11,6 +11,14 @@ public class EnemyController : MonoBehaviour
     public float waitingTime = 2f;
 
     private GameObject _target;
+    private Animator _animator;
+    private Weapon _weapon;
+
+    void Awake()
+    {
+        _animator = GetComponent<Animator>();
+        _weapon = GetComponentInChildren<Weapon>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +54,9 @@ public class EnemyController : MonoBehaviour
     private IEnumerator PatrolToTarget() 
     {
         while (Vector2.Distance(transform.position, _target.transform.position) > 0.05f) {
+
+            _animator.SetBool("Idle", false);
+
             Vector2 direction = _target.transform.position - transform.position;
             float xDirection = direction.x;
 
@@ -54,9 +65,13 @@ public class EnemyController : MonoBehaviour
         }
 
         transform.position = new Vector2(_target.transform.position.x, transform.position.y);
+        UpdateTarget();
+        _animator.SetBool("Idle", true);
+        if (_weapon != null) {
+            _weapon.Shoot();
+        }
         yield return new WaitForSeconds(waitingTime);
 
-        UpdateTarget();
         StartCoroutine("PatrolToTarget");
     }
 }
