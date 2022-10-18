@@ -18,9 +18,7 @@ public class Weapon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("Shoot", 1f);
-		Invoke("Shoot", 2f);
-		Invoke("Shoot", 3f);
+        
     }
 
     // Update is called once per frame
