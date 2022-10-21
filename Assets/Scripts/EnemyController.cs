@@ -67,11 +67,16 @@ public class EnemyController : MonoBehaviour
         transform.position = new Vector2(_target.transform.position.x, transform.position.y);
         UpdateTarget();
         _animator.SetBool("Idle", true);
-        if (_weapon != null) {
-            _weapon.Shoot();
-        }
+        _animator.SetTrigger("ShootingTrigger");
+        
         yield return new WaitForSeconds(waitingTime);
 
         StartCoroutine("PatrolToTarget");
+    }
+
+    void CanShoot() {
+        if (_weapon != null) {
+            _weapon.Shoot();
+        }
     }
 }
